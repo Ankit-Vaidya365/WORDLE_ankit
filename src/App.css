@@ -14,7 +14,7 @@
 }
 
 
-.board {
+.game {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -172,4 +172,8 @@
     &:hover {
         border-color: var(--accent-border);
     }
+}
+
+.error-message {
+    color: #ef4444;
 }

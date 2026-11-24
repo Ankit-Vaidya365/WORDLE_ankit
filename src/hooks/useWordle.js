@@ -11,14 +11,18 @@ export function useWordle(answer) {
     const [isCorrect, setIsCorrect] = useState(false);
     const [usedKeys, setUsedKeys] = useState({});
     const [invalidGuess, setInvalidGuess] = useState(false);
+    const [message, setMessage] = useState('');
+
     const addLetter = (letter) => {
+        setMessage('');
         setInvalidGuess(false);
-        setCurrentGuess((prev) => 
+        setCurrentGuess((prev) =>
             prev.length < WORD_LENGTH ? prev + letter : prev
         );
     };
 
     const removeLetter = () => {
+        setMessage('');
         setInvalidGuess(false);
         setCurrentGuess((prev) => prev.slice(0, -1));
     };
@@ -27,6 +31,11 @@ export function useWordle(answer) {
         if (turn >= MAX_GUESSES || isCorrect) return;
         if (currentGuess.length !== WORD_LENGTH) {
             setInvalidGuess(true);
+            setMessage(
+                currentGuess.length === 0
+                    ? 'Please enter a word first!'
+                    : 'Not enough letters!'
+            );
             return;
         }
 
@@ -40,20 +49,20 @@ export function useWordle(answer) {
 
         setUsedKeys((prevUsedKeys) => {
             const newKeys = {...prevUsedKeys};
-            formattedGuess.forEach(({letter,status}) =>{
+            formattedGuess.forEach(({letter, status}) => {
                 const current = newKeys[letter];
                 if (status === 'correct') {
                     newKeys[letter] = 'correct';
-                }else if (status === 'present' && current !== 'correct') {
+                } else if (status === 'present' && current !== 'correct') {
                     newKeys[letter] = 'present';
-                }else if (status === 'absent' && !current) {
+                } else if (status === 'absent' && !current) {
                     newKeys[letter] = 'absent';
                 }
             });
-        return newKeys;
+            return newKeys;
         });
 
-        if(currentGuess === answer) {
+        if (currentGuess === answer) {
             setIsCorrect(true);
         }
         setTurn((prevTurn) => prevTurn + 1);
@@ -63,23 +72,21 @@ export function useWordle(answer) {
     const handleKeyup = ({key}) => {
         if (key === 'Enter') {
             submitGuess();
-            return;
-        }else if(key === 'Backspace'){
+        } else if (key === 'Backspace') {
             removeLetter();
-        }else if(/^[A-Z]$/.test(key)) {
-        addLetter(key.toLowerCase());
+        } else if (/^[a-zA-Z]$/.test(key)) {
+            addLetter(key.toLowerCase());
         }
-    }
-    
-    return{
+    };
+
+    return {
         turn,
         currentGuess,
         guesses,
         isCorrect,
         usedKeys,
         invalidGuess,
+        message,
         handleKeyup,
     };
-
-
 }
