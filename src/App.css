@@ -1,98 +1,100 @@
-
+/* ========== MAIN GAME CONTAINER ==========
+   #wordle is the <section id="wordle"> in App.jsx. */
 #wordle {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;        /* stack everything top to bottom */
+    align-items: center;           /* center everything horizontally */
+    gap: 8px;                      /* space between title, subtitle, board... */
     padding: 32px 20px;
     flex-grow: 1;
 }
 
-#wordle p {
+#wordle p {                        /* the subtitle */
     color: var(--text);
     margin-bottom: 16px;
 }
 
-
-.game {
+/* ========== BOARD (6 rows of tiles) ========== */
+.board {
+    --tile-gap: 6px;               /* ONE number controls all spacing between tiles. Try 8px for more space */
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+    flex-direction: column;        /* rows stacked vertically */
+    gap: var(--tile-gap);          /* vertical space between rows */
     margin-bottom: 16px;
 }
 
 .row {
-    display: flex;
-    gap: 6px;
+    display: flex;                 /* tiles side by side */
+    gap: var(--tile-gap);          /* horizontal space between tiles (same variable = even spacing) */
 }
 
-
-.row.shake {
+/* Shake animation when Enter is pressed with too few letters */
+.row.invalid {
     animation: shake 0.35s ease-in-out;
 }
 
-@keyframes shake {
+@keyframes shake {                 /* moves the row left and right quickly */
     10%, 90% { transform: translateX(-4px); }
     20%, 80% { transform: translateX(4px); }
     30%, 50%, 70% { transform: translateX(-6px); }
     40%, 60% { transform: translateX(6px); }
 }
 
-
+/* ========== TILES (the squares) ========== */
 .tile {
     width: 52px;
     height: 52px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center;           /* centers the letter vertically */
+    justify-content: center;       /* centers the letter horizontally */
     font-size: 28px;
     font-weight: 600;
-    text-transform: uppercase;
+    text-transform: uppercase;     /* shows "a" as "A" */
     color: var(--text-h);
-    border: 2px solid var(--border);
-    border-radius: 4px;
-    box-sizing: border-box;
-    user-select: none;
+    border: 2px solid var(--border);  /* the empty-tile outline */
+    border-radius: 4px;            /* slightly rounded corners */
+    box-sizing: border-box;        /* the border is included in the 52px size */
+    user-select: none;             /* stops text selection with the mouse */
 
-    @media (max-width: 480px) {
+    @media (max-width: 480px) {    /* smaller tiles on phones */
         width: 44px;
         height: 44px;
         font-size: 22px;
     }
 }
 
-.tile.correct {
+/* Result colors. Tile.jsx adds one of these classes after a guess is submitted */
+.tile.correct {                    /* right letter, right place: green */
     background: #6aaa64;
     border-color: #6aaa64;
     color: #fff;
 }
 
-.tile.present {
+.tile.present {                    /* right letter, wrong place: yellow */
     background: #c9b458;
     border-color: #c9b458;
     color: #fff;
 }
 
-.tile.absent {
+.tile.absent {                     /* letter not in the word: dark grey */
     background: var(--code-bg);
     border-color: var(--code-bg);
     color: var(--text);
 }
 
-
-
+/* ========== ON-SCREEN KEYBOARD ========== */
 .keyboard {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: column;        /* three rows stacked */
+    gap: 8px;                      /* space between keyboard rows */
     width: 100%;
     max-width: 480px;
 }
 
 .keyboard-row {
     display: flex;
-    justify-content: center;
-    gap: 6px;
+    justify-content: center;       /* centers each row */
+    gap: 6px;                      /* space between keys */
 }
 
 .key {
@@ -102,45 +104,34 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none;
+    border: none;                  /* no outline, just the dark background */
     border-radius: 4px;
-    background: var(--code-bg);
+    background: var(--code-bg);    /* key color */
     color: var(--text-h);
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-    cursor: pointer;
-    transition: filter 0.15s;
+    cursor: pointer;               /* hand cursor on hover */
+    transition: filter 0.15s;      /* smooth hover effect */
 
     &:hover {
-        filter: brightness(0.92);
+        filter: brightness(0.92);  /* slightly darker when hovered */
     }
 }
 
-.key.wide {
+.key.wide {                        /* ENTER and backspace are wider */
     min-width: 56px;
     font-size: 12px;
 }
 
-.key.correct {
-    background: #6aaa64;
-    color: #fff;
-}
+/* Keyboard colors after guesses (Keyboard.jsx adds correct / present / absent) */
+.key.correct { background: #6aaa64; color: #fff; }   /* green */
+.key.present { background: #c9b458; color: #fff; }   /* yellow */
+.key.absent  { background: #787c7e; color: #fff; }   /* grey */
 
-.key.present {
-    background: #c9b458;
-    color: #fff;
-}
-
-.key.absent {
-    background: #787c7e;
-    color: #fff;
-}
-
-
-
+/* ========== MESSAGE UNDER THE BOARD ========== */
 .game-message {
-    min-height: 28px;
+    min-height: 28px;              /* reserves space so the keyboard doesn't jump when text appears */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -150,30 +141,26 @@
     font-weight: 600;
 }
 
-.game-message.win {
-    color: #6aaa64;
+.game-message.win  { color: #6aaa64; }       /* "You Guessed It!" in green */
+.game-message.lose { color: var(--text); }   /* "Out of guesses..." in grey */
+
+.error-message {                   /* red alert text, e.g. "Please enter a word first!" */
+    color: #ef4444;
 }
 
-.game-message.lose {
-    color: var(--text);
-}
-
+/* ========== PLAY AGAIN BUTTON ========== */
 .play-again {
     font-size: 14px;
     font-weight: 600;
     padding: 6px 16px;
     border-radius: 6px;
-    color: var(--accent);
-    background: var(--accent-bg);
-    border: 2px solid transparent;
+    color: var(--accent);            /* purple text */
+    background: var(--accent-bg);    /* faint purple background */
+    border: 2px solid transparent;   /* invisible until hover */
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s;   /* border fades in smoothly */
 
     &:hover {
-        border-color: var(--accent-border);
+        border-color: var(--accent-border);  /* purple border on hover */
     }
-}
-
-.error-message {
-    color: #ef4444;
 }

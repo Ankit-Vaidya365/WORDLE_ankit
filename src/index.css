@@ -1,110 +1,69 @@
+/* ========== COLOR VARIABLES ==========
+   Defined once, used everywhere as var(--name).
+   Edit these values to change the look of the whole app. */
 :root{
-    --text: #6b6375;
-    --text-h: #08060d;
-    --bg: #fff;
-    --border: #e5e4e7;
-    --code-bg: #f4f3ec;
-    --accent: #aa3bff;
-    --accent-bg: rgba(170, 59, 255, 0.1);
-    --accent-border: rgba(170, 59, 255, 0.5);
-    --social-bg: rgba(244, 243, 236, 0.5);
-    --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    --text: #9ca3af;       /* soft grey: subtitle, absent-tile letters, lose message */
+    --text-h: #f3f4f6;     /* near white: title, tile letters, key letters */
+    --bg: #16171d;         /* page background */
+    --border: #2e303a;     /* tile outlines AND the thin vertical lines on each side */
+    --code-bg: #1f2028;    /* keyboard key background, absent tile background */
+    --accent: #c084fc;                         /* Play Again button text */
+    --accent-bg: rgba(192, 132, 252, 0.15);    /* Play Again button background */
+    --accent-border: rgba(192, 132, 252, 0.5); /* Play Again button border on hover */
 
+    /* ===== FONTS ===== */
     --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
     --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-    --mono: ui-monospace, Consolas, monospace;
-    
-    font: 18px/145% var(--sans);
+
+    /* ===== DEFAULTS FOR THE WHOLE PAGE ===== */
+    font: 18px/145% var(--sans);   /* size, line height, font family */
     letter-spacing: 0.18px;
-    color-scheme: light dark;
-    color: var(--text);
-    background: var(--bg);
+    color-scheme: dark;            /* browser styles scrollbars to match dark mode */
+    color: var(--text);            /* default text color */
+    background: var(--bg);         /* default background */
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
     @media (max-width: 1024px) {
-        font-size: 16px;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --text: #9ca3af;
-        --text-h: #f3f4f6;
-        --bg: #121420;
-        --border: #2e303a;
-        --code-bg: #1f2028;
-        --accent: #c084fc;
-        --accent-bg: rgba(192, 132, 252, 0.15);
-        --accent-border: rgba(192, 132, 252, 0.5);
-        --social-bg: rgba(47, 48, 58, 0.5);
-        --shadow:
-        rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-    }
-
-    #social .button-icon {
-        filter: invert(1) brightness(2);
+        font-size: 16px;           /* slightly smaller text on tablets and phones */
     }
 }
 
 body {
-    margin: 0;
+    margin: 0;                     /* removes the default white border around the page */
 }
 
+/* ===== PAGE COLUMN =====
+   #root is the <div id="root"> in index.html, which holds the whole app. */
 #root {
-    width: 1126px;
-    max-width: 100%;
-    margin: 0 auto;
+    width: 1126px;                 /* centered column width on large screens */
+    max-width: 100%;               /* never wider than the screen */
+    margin: 0 auto;                /* centers the column horizontally */
     text-align: center;
-    border-inline: 1px solid var(--border);
-    min-height: 100svh;
+    border-inline: 1px solid var(--border);  /* the thin vertical lines left and right */
+    min-height: 100svh;            /* column always fills the full screen height */
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
 }
 
-h1,
-h2 {
+/* ===== TITLE ===== */
+h1 {
     font-family: var(--heading);
     font-weight: 500;
     color: var(--text-h);
-}
-
-h1 {
     font-size: 56px;
-    letter-spacing: -1.68px;
+    letter-spacing: -1.68px;       /* pulls the letters slightly closer together */
     margin: 32px 0;
+
     @media (max-width: 1024px) {
-        font-size: 36px;
+        font-size: 36px;           /* smaller title on small screens */
         margin: 20px 0;
     }
 }
-h2 {
-    font-size: 24px;
-    line-height: 118%;
-    letter-spacing: -0.24px;
-    margin: 0 0 8px;
-    @media (max-width: 1024px) {
-        font-size: 20px;
-    }
-}
+
 p {
-    margin: 0;
-}
-
-code,
-.counter {
-    font-family: var(--mono);
-    display: inline-flex;
-    border-radius: 4px;
-    color: var(--text-h);
-}
-
-code {
-    font-size: 15px;
-    line-height: 135%;
-    padding: 4px 8px;
-    background: var(--code-bg);
+    margin: 0;                     /* removes the default gap above and below paragraphs */
 }
